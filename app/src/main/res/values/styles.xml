@@ -1,0 +1,18 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:textColorSecondary">@color/color_toolbar_text</item>
+    </style>
+
+    <!--Toolbar-->
+    <style name="Toolbar">
+        <item name="android:textSize">@dimen/text_size_toolbar</item>
+        <item name="android:textColor">@color/color_toolbar_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@color/color_toolbar_background</item>
+    </style>
+
+</resources>
