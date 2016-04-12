@@ -15,11 +15,15 @@ import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
+//    public interface OnRecyclerItemClickListener {
+//        void onRecyclerItemClick(Tweet tweet);
+//    }
+
     private List<Tweet> tweets = new ArrayList<>();
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tweet, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tweet, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -28,10 +32,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Tweet tweet = tweets.get(position);
 
-        Picasso.with(holder.itemView.getContext())
-                .load(tweet.user.profileImageUrl)
-                .into(holder.profileImageUrl);
-
+        Picasso.with(holder.itemView.getContext()).load(tweet.user.profileImageUrl).into(holder.profileImageUrl);
         holder.name.setText(tweet.user.name);
         holder.screenName.setText("@" + tweet.user.screenName);
         holder.createdAt.setText(tweet.createdAt);
@@ -51,12 +52,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView profileImageUrl;
-        TextView name;
-        TextView screenName;
-        TextView createdAt;
-        TextView text;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private ImageView profileImageUrl;
+        private TextView name;
+        private TextView screenName;
+        private TextView createdAt;
+        private TextView text;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -67,4 +68,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             text = (TextView) itemView.findViewById(R.id.text);
         }
     }
+
+    public List<Tweet> getTweets() {
+        return tweets;
+    }
+
 }

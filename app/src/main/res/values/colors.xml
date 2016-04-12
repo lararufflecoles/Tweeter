@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="color_toolbar_background">#3F51B5</color>
-    <color name="color_toolbar_text">#FFFFFF</color>
+    <color name="color_generic_background">#FFFFFF</color>
 
+    <color name="color_toolbar_background">#FFFFFF</color>
+    <color name="color_toolbar_text">#55acee</color>
+
+    <color name="color_tweet_background">#FFFFFF</color>
     <color name="color_tweet_name">#292f33</color>
-    <color name="color_tweet_screen_name_handle">#ccd6dd</color>
+    <color name="color_tweet_screen_name_handle">#66757f</color>
     <color name="color_tweet_created_at">#ccd6dd</color>
     <color name="color_tweet_text">#292f33</color>
+
+    <color name="color_about_background">#FFFFFF</color>
+    <color name="color_about_text">#292f33</color>
+    <color name="color_about_link_text">#55acee</color>
 
 </resources>

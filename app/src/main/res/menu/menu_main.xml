@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Overflow-->
+    <item
+        android:id="@+id/action_about"
+        android:background="@color/color_generic_background"
+        android:icon="@mipmap/ic_more_vert_white_24dp"
+        android:title="@string/about"
+        app:showAsAction="never" />
+
+</menu>
