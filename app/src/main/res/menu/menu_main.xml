@@ -1,11 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/action_refresh_timeline"
+        android:icon="@drawable/ic_refresh_55acee_24dp"
+        android:title="@string/refresh_timeline"
+        app:showAsAction="always" />
+
     <!-- Overflow-->
     <item
         android:id="@+id/action_about"
         android:background="@color/color_generic_background"
-        android:icon="@mipmap/ic_more_vert_white_24dp"
+        android:icon="@drawable/ic_more_vert_white_24dp"
         android:title="@string/about"
         app:showAsAction="never" />
 

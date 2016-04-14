@@ -2,6 +2,21 @@
 
     <string name="app_name">Tweeter</string>
 
+    <!--Main Activity-->
+    <string name="refresh_timeline">Refresh Timeline</string>
+
+    <string name="period_years">%1$dyr</string>
+    <string name="period_months">%1$dmo</string>
+    <string name="period_weeks">%1$dw</string>
+    <string name="period_days">%1$dd</string>
+    <string name="period_hours">%1$dh</string>
+    <string name="period_minutes">%1$dm</string>
+    <string name="period_seconds">%1$ds</string>
+    <string name="period_millis">now</string>
+
+    <string name="welcome_messages">Hello, %1$s! You have %2$d new messages.</string>
+
+    <!--About-->
     <string name="about">About</string>
     <string name="about_detail">\nApp designed and coded by Lara Ruffle Coles
         \n\n<a href="mailto:lararuffle@lararuffle.co.uk?subject=KittyCat Image Generator">Email</a>

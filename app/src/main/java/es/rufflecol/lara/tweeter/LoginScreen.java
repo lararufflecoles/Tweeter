@@ -31,7 +31,6 @@ public class LoginScreen extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextAppearance(this, R.style.Toolbar);
-        setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
@@ -42,8 +41,8 @@ public class LoginScreen extends AppCompatActivity {
             twitterLoginButton.setCallback(new Callback<TwitterSession>() {
                 @Override
                 public void success(Result<TwitterSession> result) {
-                    Intent mainActivity = new Intent(LoginScreen.this, MainActivity.class);
-                    startActivity(mainActivity);
+                    Intent listActivity = new Intent(LoginScreen.this, MainActivity.class);
+                    startActivity(listActivity);
                     finish();
                 }
 

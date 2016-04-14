@@ -8,7 +8,7 @@
 
     <color name="color_tweet_background">#FFFFFF</color>
     <color name="color_tweet_name">#292f33</color>
-    <color name="color_tweet_screen_name_handle">#66757f</color>
+    <color name="color_tweet_screen_name_handle">#ccd6dd</color>
     <color name="color_tweet_created_at">#ccd6dd</color>
     <color name="color_tweet_text">#292f33</color>
 

@@ -32,9 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextAppearance(this, R.style.Toolbar);
-        setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setIcon(R.drawable.twitterlogo_55acee);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -45,19 +43,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new RecyclerAdapter();
         recyclerView.setAdapter(adapter);
 
-        TwitterApiClient twitterApiClient = Twitter.getApiClient();
-        StatusesService statusesService = twitterApiClient.getStatusesService();
-        statusesService.homeTimeline(null, null, null, null, null, null, null, new Callback<List<Tweet>>() {
-            @Override
-            public void success(Result<List<Tweet>> result) {
-                tweetList = result.data;
-                adapter.setTweets(tweetList);
-            }
-
-            @Override
-            public void failure(TwitterException e) {
-            }
-        });
+        refreshTimeline();
     }
 
     @Override
@@ -70,11 +56,31 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_refresh_timeline:
+                refreshTimeline();
+                return true;
             case R.id.action_about:
                 openAbout();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void refreshTimeline() {
+        TwitterApiClient twitterApiClient = Twitter.getApiClient();
+        StatusesService statusesService = twitterApiClient.getStatusesService();
+        statusesService.homeTimeline(null, null, null, null, null, null, null, new Callback<List<Tweet>>() {
+
+            @Override
+            public void success(Result<List<Tweet>> result) {
+                tweetList = result.data;
+                adapter.setTweets(tweetList);
+            }
+
+            @Override
+            public void failure(TwitterException e) {
+            }
+        });
     }
 
     private void openAbout() {

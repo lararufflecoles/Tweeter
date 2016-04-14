@@ -1,6 +1,8 @@
 package es.rufflecol.lara.tweeter;
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +12,17 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.core.models.Tweet;
 
+import org.joda.time.DateTime;
+import org.joda.time.Period;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-
-//    public interface OnRecyclerItemClickListener {
-//        void onRecyclerItemClick(Tweet tweet);
-//    }
 
     private List<Tweet> tweets = new ArrayList<>();
 
@@ -35,7 +40,30 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         Picasso.with(holder.itemView.getContext()).load(tweet.user.profileImageUrl).into(holder.profileImageUrl);
         holder.name.setText(tweet.user.name);
         holder.screenName.setText("@" + tweet.user.screenName);
-        holder.createdAt.setText(tweet.createdAt);
+
+        Resources resources = holder.itemView.getContext().getResources();
+        DateTimeFormatter dateTimeParser = DateTimeFormat.forPattern("EEE MMM dd HH:mm:ss Z yyyy");
+        DateTime dateTime = dateTimeParser.parseDateTime(tweet.createdAt);
+        DateTime now = new DateTime();
+        Period period = new Period(dateTime, now);
+        if (period.getYears() > 0) {
+            holder.createdAt.setText(resources.getString(R.string.period_years, period.getYears()));
+        } else if (period.getMonths() > 0) {
+            holder.createdAt.setText(resources.getString(R.string.period_months, period.getMonths()));
+        } else if (period.getWeeks() > 0) {
+            holder.createdAt.setText(resources.getString(R.string.period_weeks, period.getWeeks()));
+        } else if (period.getDays() > 0) {
+            holder.createdAt.setText(resources.getString(R.string.period_days, period.getDays()));
+        } else if (period.getHours() > 0) {
+            holder.createdAt.setText(resources.getString(R.string.period_hours, period.getHours()));
+        } else if (period.getMinutes() > 0) {
+            holder.createdAt.setText(resources.getString(R.string.period_minutes, period.getMinutes()));
+        } else if (period.getSeconds() > 0) {
+            holder.createdAt.setText(resources.getString(R.string.period_seconds, period.getSeconds()));
+        } else {
+            holder.createdAt.setText(R.string.period_millis);
+        }
+
         holder.text.setText(tweet.text);
     }
 
@@ -67,10 +95,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             createdAt = (TextView) itemView.findViewById(R.id.created_at);
             text = (TextView) itemView.findViewById(R.id.text);
         }
+
     }
 
     public List<Tweet> getTweets() {
         return tweets;
     }
-
 }
