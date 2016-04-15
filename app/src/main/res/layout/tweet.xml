@@ -65,6 +65,18 @@
                 android:textSize="@dimen/text_size_tweet_text"
                 android:textStyle="normal" />
 
+            <ToggleButton
+                android:id="@+id/heart"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@id/text"
+                android:background="@null"
+                android:drawableLeft="@drawable/toggle_button_heart"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:textOff=""
+                android:textOn="" />
+
         </RelativeLayout>
 
     </LinearLayout>

@@ -4,6 +4,10 @@
 
     <!--Main Activity-->
     <string name="refresh_timeline">Refresh Timeline</string>
+    <string name="refresh_timeline_failed">Refresh timeline failed</string>
+
+    <string name="on_create_favorite_tweet_failed">Favoriting tweet failed</string>
+    <string name="on_destroy_favorite_tweet_failed">Unfavoriting tweet failed</string>
 
     <string name="period_years">%1$dyr</string>
     <string name="period_months">%1$dmo</string>
@@ -13,8 +17,6 @@
     <string name="period_minutes">%1$dm</string>
     <string name="period_seconds">%1$ds</string>
     <string name="period_millis">now</string>
-
-    <string name="welcome_messages">Hello, %1$s! You have %2$d new messages.</string>
 
     <!--About-->
     <string name="about">About</string>

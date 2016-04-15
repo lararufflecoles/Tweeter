@@ -2,12 +2,13 @@ package es.rufflecol.lara.tweeter;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.core.models.Tweet;
@@ -16,15 +17,23 @@ import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
+    public interface TweetInteractionListener {
+        void onCreateFavoriteTweet(Tweet tweet);
+        void onDestroyFavoriteTweet(Tweet tweet);
+    }
+
     private List<Tweet> tweets = new ArrayList<>();
+    private TweetInteractionListener tweetInteractionListener;
+
+    public RecyclerAdapter(TweetInteractionListener tweetInteractionListener) {
+        this.tweetInteractionListener = tweetInteractionListener;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,11 +44,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Tweet tweet = tweets.get(position);
+        final Tweet tweet = tweets.get(position);
 
-        Picasso.with(holder.itemView.getContext()).load(tweet.user.profileImageUrl).into(holder.profileImageUrl);
-        holder.name.setText(tweet.user.name);
-        holder.screenName.setText("@" + tweet.user.screenName);
+        Picasso.with(holder.itemView.getContext()).load(tweet.user.profileImageUrl).into(holder.userProfileImageUrl);
+
+        holder.userName.setText(tweet.user.name);
+
+        holder.useScreenName.setText("@" + tweet.user.screenName);
 
         Resources resources = holder.itemView.getContext().getResources();
         DateTimeFormatter dateTimeParser = DateTimeFormat.forPattern("EEE MMM dd HH:mm:ss Z yyyy");
@@ -65,6 +76,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
 
         holder.text.setText(tweet.text);
+
+        holder.heart.setOnCheckedChangeListener(null);
+        holder.heart.setChecked(tweet.favorited);
+        holder.heart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    tweetInteractionListener.onCreateFavoriteTweet(tweet);
+                } else {
+                    tweetInteractionListener.onDestroyFavoriteTweet(tweet);
+                }
+            }
+        });
     }
 
     @Override
@@ -80,22 +103,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView profileImageUrl;
-        private TextView name;
-        private TextView screenName;
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        private ImageView userProfileImageUrl;
+        private TextView userName;
+        private TextView useScreenName;
         private TextView createdAt;
         private TextView text;
+        private ToggleButton heart;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            profileImageUrl = (ImageView) itemView.findViewById(R.id.profile_image_url);
-            name = (TextView) itemView.findViewById(R.id.name);
-            screenName = (TextView) itemView.findViewById(R.id.screen_name_handle);
+            userProfileImageUrl = (ImageView) itemView.findViewById(R.id.profile_image_url);
+            userName = (TextView) itemView.findViewById(R.id.name);
+            useScreenName = (TextView) itemView.findViewById(R.id.screen_name_handle);
             createdAt = (TextView) itemView.findViewById(R.id.created_at);
             text = (TextView) itemView.findViewById(R.id.text);
+            heart = (ToggleButton) itemView.findViewById(R.id.heart);
         }
-
     }
 
     public List<Tweet> getTweets() {

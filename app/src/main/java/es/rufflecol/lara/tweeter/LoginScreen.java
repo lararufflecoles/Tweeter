@@ -14,6 +14,7 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -34,7 +35,7 @@ public class LoginScreen extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig), new Crashlytics());
+        Fabric.with(this, new Twitter(authConfig), new TweetComposer(), new Crashlytics());
 
         twitterLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
         if (twitterLoginButton != null) {
