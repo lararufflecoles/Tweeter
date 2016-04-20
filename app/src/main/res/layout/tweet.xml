@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/profile_image_url"
             android:paddingBottom="5dp"
+            android:paddingRight="10dp"
             android:paddingTop="5dp">
 
             <TextView
@@ -51,7 +52,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:paddingRight="10dp"
                 android:textColor="@color/color_tweet_created_at"
                 android:textSize="@dimen/text_size_tweet_created_at" />
 
@@ -65,17 +65,39 @@
                 android:textSize="@dimen/text_size_tweet_text"
                 android:textStyle="normal" />
 
-            <ToggleButton
-                android:id="@+id/heart"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+            <LinearLayout
+                android:id="@+id/toggle_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/text"
-                android:background="@null"
-                android:drawableLeft="@drawable/toggle_button_heart"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp"
-                android:textOff=""
-                android:textOn="" />
+                android:orientation="horizontal">
+
+                <ToggleButton
+                    android:id="@+id/favorited"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/toggle_button_favorited"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:textOff=""
+                    android:textOn="" />
+
+                <ToggleButton
+                    android:id="@+id/retweet"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_toRightOf="@id/favorited"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/toggle_button_retweet"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:textOff=""
+                    android:textOn="" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 

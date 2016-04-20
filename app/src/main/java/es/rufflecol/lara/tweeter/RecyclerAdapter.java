@@ -26,6 +26,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public interface TweetInteractionListener {
         void onCreateFavoriteTweet(Tweet tweet);
         void onDestroyFavoriteTweet(Tweet tweet);
+        void onRetweet(Tweet tweet);
+        void onUnretweet(Tweet tweet);
     }
 
     private List<Tweet> tweets = new ArrayList<>();
@@ -77,14 +79,26 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         holder.text.setText(tweet.text);
 
-        holder.heart.setOnCheckedChangeListener(null);
-        holder.heart.setChecked(tweet.favorited);
-        holder.heart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.favorited.setOnCheckedChangeListener(null);
+        holder.favorited.setChecked(tweet.favorited);
+        holder.favorited.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     tweetInteractionListener.onCreateFavoriteTweet(tweet);
                 } else {
                     tweetInteractionListener.onDestroyFavoriteTweet(tweet);
+                }
+            }
+        });
+
+        holder.retweet.setOnCheckedChangeListener(null);
+        holder.retweet.setChecked(tweet.retweeted);
+        holder.retweet.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    tweetInteractionListener.onRetweet(tweet);
+                } else {
+                    tweetInteractionListener.onUnretweet(tweet);
                 }
             }
         });
@@ -109,7 +123,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         private TextView useScreenName;
         private TextView createdAt;
         private TextView text;
-        private ToggleButton heart;
+        private ToggleButton favorited;
+        private ToggleButton retweet;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -118,7 +133,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             useScreenName = (TextView) itemView.findViewById(R.id.screen_name_handle);
             createdAt = (TextView) itemView.findViewById(R.id.created_at);
             text = (TextView) itemView.findViewById(R.id.text);
-            heart = (ToggleButton) itemView.findViewById(R.id.heart);
+            favorited = (ToggleButton) itemView.findViewById(R.id.favorited);
+            retweet = (ToggleButton) itemView.findViewById(R.id.retweet);
         }
     }
 

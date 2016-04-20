@@ -20,9 +20,6 @@ import io.fabric.sdk.android.Fabric;
 
 public class LoginScreen extends AppCompatActivity {
 
-    private static final String TWITTER_KEY = "2InB5cnoHD5JDXY5aisltp27R";
-    private static final String TWITTER_SECRET = "Azs5lXnXsvn5NZSV59jqCY2NYQbFVf4d2CiEHzxRyjMRly69yl";
-
     private TwitterLoginButton twitterLoginButton;
 
     @Override
@@ -33,9 +30,6 @@ public class LoginScreen extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextAppearance(this, R.style.Toolbar);
         setSupportActionBar(toolbar);
-
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig), new TweetComposer(), new Crashlytics());
 
         twitterLoginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
         if (twitterLoginButton != null) {

@@ -25,8 +25,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements RecyclerAdapter.TweetInteractionListener {
 
     private FavoriteService favoriteService;
-    private RecyclerAdapter adapter;
     private List<Tweet> tweetList;
+    private RecyclerAdapter recyclerAdapter;
+    private StatusesService statusesService;
     private TwitterApiClient twitterApiClient;
 
     @Override
@@ -44,10 +45,100 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RecyclerAdapter(this);
-        recyclerView.setAdapter(adapter);
+        recyclerAdapter = new RecyclerAdapter(this);
+        recyclerView.setAdapter(recyclerAdapter);
 
         refreshTimeline();
+    }
+
+    private void refreshTimeline() {
+        twitterApiClient = Twitter.getApiClient();
+        statusesService = twitterApiClient.getStatusesService();
+        statusesService.homeTimeline(100, null, null, null, null, null, null, new Callback<List<Tweet>>() {
+
+            @Override
+            public void success(Result<List<Tweet>> result) {
+                tweetList = result.data;
+                recyclerAdapter.setTweets(tweetList);
+            }
+
+            @Override
+            public void failure(TwitterException e) {
+                Toast.makeText(MainActivity.this, R.string.refresh_timeline_failed, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onCreateFavoriteTweet(Tweet tweet) {
+        twitterApiClient = Twitter.getApiClient();
+        favoriteService = twitterApiClient.getFavoriteService();
+        favoriteService.create(tweet.getId(), null, new Callback<Tweet>() {
+
+            @Override
+            public void success(Result<Tweet> result) {
+                refreshTimeline();
+            }
+
+            @Override
+            public void failure(TwitterException e) {
+                Toast.makeText(MainActivity.this, R.string.on_create_favorite_tweet_failed, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onDestroyFavoriteTweet(Tweet tweet) {
+        twitterApiClient = Twitter.getApiClient();
+        favoriteService = twitterApiClient.getFavoriteService();
+        favoriteService.destroy(tweet.getId(), null, new Callback<Tweet>() {
+
+            @Override
+            public void success(Result<Tweet> result) {
+                refreshTimeline();
+            }
+
+            @Override
+            public void failure(TwitterException e) {
+                Toast.makeText(MainActivity.this, R.string.on_destroy_favorite_tweet_failed, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onRetweet(Tweet tweet) {
+        twitterApiClient = Twitter.getApiClient();
+        statusesService = twitterApiClient.getStatusesService();
+        statusesService.retweet(tweet.getId(), null, new Callback<Tweet>() {
+
+            @Override
+            public void success(Result<Tweet> result) {
+                refreshTimeline();
+            }
+
+            @Override
+            public void failure(TwitterException e) {
+                Toast.makeText(MainActivity.this, R.string.on_retweet_failed, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void onUnretweet(Tweet tweet) {
+        twitterApiClient = Twitter.getApiClient();
+        statusesService = twitterApiClient.getStatusesService();
+        statusesService.unretweet(tweet.getId(), null, new Callback<Tweet>() {
+
+            @Override
+            public void success(Result<Tweet> result) {
+                refreshTimeline();
+            }
+
+            @Override
+            public void failure(TwitterException e) {
+                Toast.makeText(MainActivity.this, R.string.on_unretweet_failed, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -68,58 +159,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void refreshTimeline() {
-        twitterApiClient = Twitter.getApiClient();
-        StatusesService statusesService = twitterApiClient.getStatusesService();
-        statusesService.homeTimeline(100, null, null, null, null, null, null, new Callback<List<Tweet>>() {
-
-            @Override
-            public void success(Result<List<Tweet>> result) {
-                tweetList = result.data;
-                adapter.setTweets(tweetList);
-            }
-
-            @Override
-            public void failure(TwitterException e) {
-                Toast.makeText(MainActivity.this, R.string.refresh_timeline_failed, Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    @Override
-    public void onCreateFavoriteTweet(Tweet tweet) {
-        twitterApiClient = Twitter.getApiClient();
-        favoriteService = twitterApiClient.getFavoriteService();
-        favoriteService.create(tweet.getId(), null, new Callback<Tweet>() {
-            @Override
-            public void success(Result<Tweet> result) {
-                refreshTimeline();
-            }
-
-            @Override
-            public void failure(TwitterException e) {
-                Toast.makeText(MainActivity.this, R.string.on_create_favorite_tweet_failed, Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    @Override
-    public void onDestroyFavoriteTweet(Tweet tweet) {
-        twitterApiClient = Twitter.getApiClient();
-        favoriteService = twitterApiClient.getFavoriteService();
-        favoriteService.destroy(tweet.getId(), null, new Callback<Tweet>() {
-            @Override
-            public void success(Result<Tweet> result) {
-                refreshTimeline();
-            }
-
-            @Override
-            public void failure(TwitterException e) {
-                Toast.makeText(MainActivity.this, R.string.on_destroy_favorite_tweet_failed, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     private void openAbout() {

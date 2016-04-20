@@ -9,6 +9,9 @@
     <string name="on_create_favorite_tweet_failed">Favoriting tweet failed</string>
     <string name="on_destroy_favorite_tweet_failed">Unfavoriting tweet failed</string>
 
+    <string name="on_retweet_failed">Favoriting tweet failed</string>
+    <string name="on_unretweet_failed">Unfavoriting tweet failed</string>
+
     <string name="period_years">%1$dyr</string>
     <string name="period_months">%1$dmo</string>
     <string name="period_weeks">%1$dw</string>
