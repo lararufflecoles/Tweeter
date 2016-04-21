@@ -1,14 +1,19 @@
 package es.rufflecol.lara.tweeter;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.twitter.sdk.android.Twitter;
@@ -19,6 +24,7 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.services.FavoriteService;
 import com.twitter.sdk.android.core.services.StatusesService;
+import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
 
 import java.util.List;
 
@@ -51,6 +57,76 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
         refreshTimeline();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_compose_tweet:
+                composeTweet(null);
+                return true;
+            case R.id.action_refresh_timeline:
+                refreshTimeline();
+                return true;
+            case R.id.action_about:
+                openAbout();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void composeTweet(final Long inReplyToStatusId) {
+        LayoutInflater inflater = getLayoutInflater();
+        View tweetComposeLayout = inflater.inflate(R.layout.tweet_compose, null);
+
+        final EditText tweetComposeEditText = (EditText) tweetComposeLayout.findViewById(R.id.tweet_compose);
+
+        AlertDialog.Builder tweetComposeAlertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        tweetComposeAlertDialogBuilder
+                .setView(tweetComposeLayout)
+                .setCancelable(true)
+                .setNegativeButton(R.string.tweet_compose_back, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton(R.string.tweet_compose_tweet, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String tweetComposedAsString = tweetComposeEditText.getText().toString();
+                        addComposedTweetToTimeline(tweetComposedAsString, inReplyToStatusId);
+                    }
+                });
+        AlertDialog tweetComposeAlertDialog = tweetComposeAlertDialogBuilder.create();
+        tweetComposeAlertDialog.show();
+    }
+
+    @Override
+    public void composeTweetReply(Tweet tweet) {
+        long id = tweet.getId();
+        composeTweet(id);
+    }
+
+    private void addComposedTweetToTimeline(String tweetComposedAsString, Long inReplyToStatusId) {
+        twitterApiClient = Twitter.getApiClient();
+        statusesService = twitterApiClient.getStatusesService();
+        statusesService.update(tweetComposedAsString, inReplyToStatusId, null, null, null, null, null, null, null, new Callback<Tweet>() {
+
+            @Override
+            public void success(Result<Tweet> result) {
+                refreshTimeline();
+            }
+
+            public void failure(TwitterException e) {
+                Toast.makeText(MainActivity.this, R.string.tweet_posting_failed, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     private void refreshTimeline() {
         twitterApiClient = Twitter.getApiClient();
         statusesService = twitterApiClient.getStatusesService();
@@ -67,6 +143,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
                 Toast.makeText(MainActivity.this, R.string.refresh_timeline_failed, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void openAbout() {
+        Intent openAbout = new Intent(this, AboutActivity.class);
+        startActivity(openAbout);
     }
 
     @Override
@@ -139,30 +220,5 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
                 Toast.makeText(MainActivity.this, R.string.on_unretweet_failed, Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_refresh_timeline:
-                refreshTimeline();
-                return true;
-            case R.id.action_about:
-                openAbout();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void openAbout() {
-        Intent openAbout = new Intent(this, AboutActivity.class);
-        startActivity(openAbout);
     }
 }

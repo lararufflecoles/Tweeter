@@ -3,6 +3,11 @@
     <string name="app_name">Tweeter</string>
 
     <!--Main Activity-->
+    <string name="tweet_compose">Compose Tweet</string>
+    <string name="tweet_compose_back">Back</string>
+    <string name="tweet_compose_tweet">Tweet</string>
+    <string name="tweet_posting_failed">Tweet posting failed</string>
+
     <string name="refresh_timeline">Refresh Timeline</string>
     <string name="refresh_timeline_failed">Refresh timeline failed</string>
 

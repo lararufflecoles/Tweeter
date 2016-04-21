@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,10 +25,11 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     public interface TweetInteractionListener {
-        void onCreateFavoriteTweet(Tweet tweet);
-        void onDestroyFavoriteTweet(Tweet tweet);
+        void composeTweetReply(Tweet tweet);
         void onRetweet(Tweet tweet);
         void onUnretweet(Tweet tweet);
+        void onCreateFavoriteTweet(Tweet tweet);
+        void onDestroyFavoriteTweet(Tweet tweet);
     }
 
     private List<Tweet> tweets = new ArrayList<>();
@@ -79,15 +81,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         holder.text.setText(tweet.text);
 
-        holder.favorited.setOnCheckedChangeListener(null);
-        holder.favorited.setChecked(tweet.favorited);
-        holder.favorited.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    tweetInteractionListener.onCreateFavoriteTweet(tweet);
-                } else {
-                    tweetInteractionListener.onDestroyFavoriteTweet(tweet);
-                }
+        holder.tweetReply.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                tweetInteractionListener.composeTweetReply(tweet);
             }
         });
 
@@ -99,6 +95,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     tweetInteractionListener.onRetweet(tweet);
                 } else {
                     tweetInteractionListener.onUnretweet(tweet);
+                }
+            }
+        });
+
+        holder.favorited.setOnCheckedChangeListener(null);
+        holder.favorited.setChecked(tweet.favorited);
+        holder.favorited.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    tweetInteractionListener.onCreateFavoriteTweet(tweet);
+                } else {
+                    tweetInteractionListener.onDestroyFavoriteTweet(tweet);
                 }
             }
         });
@@ -117,14 +125,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView userProfileImageUrl;
         private TextView userName;
         private TextView useScreenName;
         private TextView createdAt;
         private TextView text;
-        private ToggleButton favorited;
+        private Button tweetReply;
         private ToggleButton retweet;
+        private ToggleButton favorited;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -133,8 +142,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             useScreenName = (TextView) itemView.findViewById(R.id.screen_name_handle);
             createdAt = (TextView) itemView.findViewById(R.id.created_at);
             text = (TextView) itemView.findViewById(R.id.text);
-            favorited = (ToggleButton) itemView.findViewById(R.id.favorited);
+            tweetReply = (Button) itemView.findViewById(R.id.tweet_reply);
             retweet = (ToggleButton) itemView.findViewById(R.id.retweet);
+            favorited = (ToggleButton) itemView.findViewById(R.id.favorited);
         }
     }
 

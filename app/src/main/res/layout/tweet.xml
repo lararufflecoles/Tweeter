@@ -62,8 +62,7 @@
                 android:layout_below="@id/name"
                 android:paddingRight="10dp"
                 android:textColor="@color/color_tweet_text"
-                android:textSize="@dimen/text_size_tweet_text"
-                android:textStyle="normal" />
+                android:textSize="@dimen/text_size_tweet_text" />
 
             <LinearLayout
                 android:id="@+id/toggle_buttons"
@@ -72,27 +71,35 @@
                 android:layout_below="@id/text"
                 android:orientation="horizontal">
 
-                <ToggleButton
-                    android:id="@+id/favorited"
+                <Button
+                    android:id="@+id/tweet_reply"
                     android:layout_width="0dp"
                     android:layout_height="25dp"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:drawableLeft="@drawable/toggle_button_favorited"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="5dp"
-                    android:textOff=""
-                    android:textOn="" />
+                    android:drawableLeft="@drawable/ic_reply_blue_55acee"
+                    android:paddingTop="5dp" />
 
                 <ToggleButton
                     android:id="@+id/retweet"
                     android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:layout_toRightOf="@id/favorited"
+                    android:layout_toRightOf="@id/tweet_reply"
                     android:layout_weight="1"
                     android:background="@null"
                     android:drawableLeft="@drawable/toggle_button_retweet"
-                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:textOff=""
+                    android:textOn="" />
+
+                <ToggleButton
+                    android:id="@+id/favorited"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_toRightOf="@id/retweet"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/toggle_button_favorited"
                     android:paddingTop="5dp"
                     android:textOff=""
                     android:textOn="" />
