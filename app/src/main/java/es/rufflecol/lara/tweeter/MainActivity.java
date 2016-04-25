@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_compose_tweet:
-                composeTweet(null);
+                composeTweet(null, null);
                 return true;
             case R.id.action_refresh_timeline:
                 refreshTimeline();
@@ -80,11 +80,16 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
         return super.onOptionsItemSelected(item);
     }
 
-    private void composeTweet(final Long inReplyToStatusId) {
+    private void composeTweet(final Long inReplyToStatusId, String inReplyToScreenName) {
         LayoutInflater inflater = getLayoutInflater();
         View tweetComposeLayout = inflater.inflate(R.layout.tweet_compose, null);
 
         final EditText tweetComposeEditText = (EditText) tweetComposeLayout.findViewById(R.id.tweet_compose);
+
+        if (inReplyToScreenName != null) {
+            tweetComposeEditText.setText("@" + inReplyToScreenName + " ");
+            tweetComposeEditText.setSelection(tweetComposeEditText.getText().length());
+        }
 
         AlertDialog.Builder tweetComposeAlertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         tweetComposeAlertDialogBuilder
@@ -107,8 +112,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
 
     @Override
     public void composeTweetReply(Tweet tweet) {
-        long id = tweet.getId();
-        composeTweet(id);
+        long statusId = tweet.getId();
+        String screenName = tweet.user.screenName;
+        composeTweet(statusId, screenName);
     }
 
     private void addComposedTweetToTimeline(String tweetComposedAsString, Long inReplyToStatusId) {
