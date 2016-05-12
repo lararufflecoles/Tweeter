@@ -3,6 +3,7 @@ package es.rufflecol.lara.tweeter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,7 +26,6 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.services.FavoriteService;
 import com.twitter.sdk.android.core.services.StatusesService;
-import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
 
 import java.util.List;
 
@@ -82,18 +83,18 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
 
     private void composeTweet(final Long inReplyToStatusId, String inReplyToScreenName) {
         LayoutInflater inflater = getLayoutInflater();
-        View tweetComposeLayout = inflater.inflate(R.layout.tweet_compose, null);
+        View composeTweetLayout = inflater.inflate(R.layout.tweet_compose, null);
 
-        final EditText tweetComposeEditText = (EditText) tweetComposeLayout.findViewById(R.id.tweet_compose);
+        final EditText composeTweetEditText = (EditText) composeTweetLayout.findViewById(R.id.tweet_compose);
 
         if (inReplyToScreenName != null) {
-            tweetComposeEditText.setText("@" + inReplyToScreenName + " ");
-            tweetComposeEditText.setSelection(tweetComposeEditText.getText().length());
+            composeTweetEditText.setText("@" + inReplyToScreenName + " ");
+            composeTweetEditText.setSelection(composeTweetEditText.getText().length());
         }
 
-        AlertDialog.Builder tweetComposeAlertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-        tweetComposeAlertDialogBuilder
-                .setView(tweetComposeLayout)
+        AlertDialog.Builder composeTweetAlertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        composeTweetAlertDialogBuilder
+                .setView(composeTweetLayout)
                 .setCancelable(true)
                 .setNegativeButton(R.string.tweet_compose_back, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -102,12 +103,17 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
                 })
                 .setPositiveButton(R.string.tweet_compose_tweet, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        String tweetComposedAsString = tweetComposeEditText.getText().toString();
-                        addComposedTweetToTimeline(tweetComposedAsString, inReplyToStatusId);
+                        String composedTweetAsString = composeTweetEditText.getText().toString();
+                        addComposedTweetToTimeline(composedTweetAsString, inReplyToStatusId);
                     }
                 });
-        AlertDialog tweetComposeAlertDialog = tweetComposeAlertDialogBuilder.create();
-        tweetComposeAlertDialog.show();
+        AlertDialog composeTweetAlertDialog = composeTweetAlertDialogBuilder.create();
+        composeTweetAlertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE); // Pops up the keyboard
+        composeTweetAlertDialog.show();
+
+        int twitterBlue = ContextCompat.getColor(this, R.color.twitter_blue);
+        composeTweetAlertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(twitterBlue);
+        composeTweetAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(twitterBlue);
     }
 
     @Override
@@ -117,16 +123,16 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
         composeTweet(statusId, screenName);
     }
 
-    private void addComposedTweetToTimeline(String tweetComposedAsString, Long inReplyToStatusId) {
+    private void addComposedTweetToTimeline(String composedTweetAsString, Long inReplyToStatusId) {
         twitterApiClient = Twitter.getApiClient();
         statusesService = twitterApiClient.getStatusesService();
-        statusesService.update(tweetComposedAsString, inReplyToStatusId, null, null, null, null, null, null, null, new Callback<Tweet>() {
-
+        statusesService.update(composedTweetAsString, inReplyToStatusId, null, null, null, null, null, null, null, new Callback<Tweet>() {
             @Override
             public void success(Result<Tweet> result) {
                 refreshTimeline();
             }
 
+            @Override
             public void failure(TwitterException e) {
                 Toast.makeText(MainActivity.this, R.string.tweet_posting_failed, Toast.LENGTH_LONG).show();
             }
@@ -137,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
         twitterApiClient = Twitter.getApiClient();
         statusesService = twitterApiClient.getStatusesService();
         statusesService.homeTimeline(100, null, null, null, null, null, null, new Callback<List<Tweet>>() {
-
             @Override
             public void success(Result<List<Tweet>> result) {
                 tweetList = result.data;
@@ -161,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
         twitterApiClient = Twitter.getApiClient();
         favoriteService = twitterApiClient.getFavoriteService();
         favoriteService.create(tweet.getId(), null, new Callback<Tweet>() {
-
             @Override
             public void success(Result<Tweet> result) {
                 refreshTimeline();
@@ -179,7 +183,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
         twitterApiClient = Twitter.getApiClient();
         favoriteService = twitterApiClient.getFavoriteService();
         favoriteService.destroy(tweet.getId(), null, new Callback<Tweet>() {
-
             @Override
             public void success(Result<Tweet> result) {
                 refreshTimeline();
@@ -197,7 +200,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
         twitterApiClient = Twitter.getApiClient();
         statusesService = twitterApiClient.getStatusesService();
         statusesService.retweet(tweet.getId(), null, new Callback<Tweet>() {
-
             @Override
             public void success(Result<Tweet> result) {
                 refreshTimeline();
@@ -215,7 +217,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.T
         twitterApiClient = Twitter.getApiClient();
         statusesService = twitterApiClient.getStatusesService();
         statusesService.unretweet(tweet.getId(), null, new Callback<Tweet>() {
-
             @Override
             public void success(Result<Tweet> result) {
                 refreshTimeline();

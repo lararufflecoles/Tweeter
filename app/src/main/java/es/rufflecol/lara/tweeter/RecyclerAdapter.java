@@ -1,5 +1,7 @@
 package es.rufflecol.lara.tweeter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -51,6 +53,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         final Tweet tweet = tweets.get(position);
 
         Picasso.with(holder.itemView.getContext()).load(tweet.user.profileImageUrl).into(holder.userProfileImageUrl);
+        holder.userProfileImageUrl.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent goToUserTimeline = new Intent(context, UserTimeline.class);
+                context.startActivity(goToUserTimeline);
+            }
+        });
 
         holder.userName.setText(tweet.user.name);
 

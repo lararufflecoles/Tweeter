@@ -11,11 +11,11 @@
     <string name="refresh_timeline">Refresh Timeline</string>
     <string name="refresh_timeline_failed">Refresh timeline failed</string>
 
-    <string name="on_create_favorite_tweet_failed">Favoriting tweet failed</string>
-    <string name="on_destroy_favorite_tweet_failed">Unfavoriting tweet failed</string>
+    <string name="on_create_favorite_tweet_failed">Favouriting tweet failed</string>
+    <string name="on_destroy_favorite_tweet_failed">Unfavouriting tweet failed</string>
 
-    <string name="on_retweet_failed">Favoriting tweet failed</string>
-    <string name="on_unretweet_failed">Unfavoriting tweet failed</string>
+    <string name="on_retweet_failed">Favouriting tweet failed</string>
+    <string name="on_unretweet_failed">Unfavouriting tweet failed</string>
 
     <string name="period_years">%1$dyr</string>
     <string name="period_months">%1$dmo</string>
@@ -25,6 +25,8 @@
     <string name="period_minutes">%1$dm</string>
     <string name="period_seconds">%1$ds</string>
     <string name="period_millis">now</string>
+
+    <string name="user_timeline">User Timeline</string>
 
     <!--About-->
     <string name="about">About</string>

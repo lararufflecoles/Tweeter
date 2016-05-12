@@ -4,23 +4,69 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="android:textColorSecondary">@color/color_toolbar_text</item>
+        <item name="android:textColorSecondary">@color/twitter_blue</item>
+        <item name="actionOverflowMenuStyle">@style/PopupMenu</item>
+        <item name="textAppearanceLargePopupMenu">@style/PopupMenuText</item>
     </style>
 
     <!--Toolbar-->
     <style name="Toolbar">
-        <item name="android:textSize">@dimen/text_size_toolbar</item>
-        <item name="android:textColor">@color/color_toolbar_text</item>
+        <item name="android:textColor">@color/twitter_blue</item>
+        <item name="android:textSize">@dimen/text_size_18sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">@color/color_toolbar_background</item>
-        <item name="android:elevation">3dp</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:elevation">@dimen/toolbar_elevation</item>
+    </style>
+
+    <!--Popup Menu-->
+    <style name="PopupMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@android:color/white</item>
+    </style>
+
+    <style name="PopupMenuText" parent="TextAppearance.AppCompat.Light.Widget.PopupMenu.Large">
+        <item name="android:textColor">@color/twitter_blue</item>
+    </style>
+
+    <!--Tweet Name-->
+    <style name="TweetName">
+        <item name="android:textColor">@color/twitter_darkest_grey</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--Tweet Screen Name Handle-->
+    <style name="TweetScreenNameHandle">
+        <item name="android:textColor">@color/twitter_medium_grey</item>
+        <item name="android:textSize">@dimen/text_size_15sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">1</item>
+    </style>
+
+    <!--Tweet Created At-->
+    <style name="TweetCreatedAt">
+        <item name="android:textColor">@color/twitter_medium_grey</item>
+        <item name="android:textSize">@dimen/text_size_15sp</item>
+    </style>
+
+    <!--Tweet Text-->
+    <style name="TweetText">
+        <item name="android:textColor">@color/twitter_darkest_grey</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+    </style>
+
+    <!--Tweet Compose-->
+    <style name="TweetCompose">
+        <item name="android:textColor">@color/twitter_darkest_grey</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+        <item name="android:inputType">textCapSentences|textMultiLine</item>
+        <item name="android:backgroundTint">@color/twitter_blue</item>
     </style>
 
     <!--About Activity-->
     <style name="AboutText">
-        <item name="android:textSize">@dimen/text_size_about_text</item>
-        <item name="android:textColor">@color/color_about_text</item>
-        <item name="android:textColorLink">@color/color_about_link_text</item>
+        <item name="android:textColor">@color/twitter_darkest_grey</item>
+        <item name="android:textColorLink">@color/twitter_blue</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
     </style>
 
 </resources>

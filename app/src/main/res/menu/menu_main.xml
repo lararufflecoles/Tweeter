@@ -16,7 +16,6 @@
     <!-- Overflow-->
     <item
         android:id="@+id/action_about"
-        android:background="@color/color_generic_background"
         android:icon="@drawable/ic_more_vert_white_24dp"
         android:title="@string/about"
         app:showAsAction="never" />

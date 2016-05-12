@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_tweet_background"
+    android:background="@android:color/white"
     android:orientation="vertical"
     tools:context="">
 
@@ -13,56 +13,49 @@
 
         <ImageView
             android:id="@+id/profile_image_url"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            android:layout_width="@dimen/layout_width_64"
+            android:layout_height="@dimen/layout_height_64"
+            android:paddingLeft="@dimen/padding_10"
+            android:paddingRight="@dimen/padding_10" />
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/profile_image_url"
-            android:paddingBottom="5dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp">
+            android:paddingBottom="@dimen/padding_6"
+            android:paddingRight="@dimen/padding_10"
+            android:paddingTop="@dimen/padding_5">
 
             <TextView
                 android:id="@+id/name"
+                style="@style/TweetName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="5dp"
-                android:textColor="@color/color_tweet_name"
-                android:textSize="@dimen/text_size_tweet_name"
-                android:textStyle="bold" />
+                android:paddingRight="@dimen/padding_5" />
 
             <TextView
                 android:id="@+id/screen_name_handle"
+                style="@style/TweetScreenNameHandle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/created_at"
                 android:layout_toRightOf="@id/name"
-                android:ellipsize="end"
-                android:lines="1"
-                android:paddingRight="5dp"
-                android:textColor="@color/color_tweet_screen_name_handle"
-                android:textSize="@dimen/text_size_tweet_screen_name_handle" />
+                android:paddingRight="@dimen/padding_5" />
 
             <TextView
                 android:id="@id/created_at"
+                style="@style/TweetCreatedAt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/color_tweet_created_at"
-                android:textSize="@dimen/text_size_tweet_created_at" />
+                android:layout_alignParentRight="true" />
 
             <TextView
                 android:id="@+id/text"
+                style="@style/TweetText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/name"
-                android:paddingRight="10dp"
-                android:textColor="@color/color_tweet_text"
-                android:textSize="@dimen/text_size_tweet_text" />
+                android:paddingRight="@dimen/padding_10" />
 
             <LinearLayout
                 android:id="@+id/toggle_buttons"
@@ -73,34 +66,34 @@
 
                 <Button
                     android:id="@+id/tweet_reply"
-                    android:layout_width="0dp"
-                    android:layout_height="25dp"
+                    android:layout_width="@dimen/layout_width_0"
+                    android:layout_height="@dimen/layout_height_25"
                     android:layout_weight="1"
                     android:background="@null"
                     android:drawableLeft="@drawable/ic_tweet_reply_blue_55acee"
-                    android:paddingTop="5dp" />
+                    android:paddingTop="@dimen/padding_5" />
 
                 <ToggleButton
                     android:id="@+id/retweet"
-                    android:layout_width="0dp"
-                    android:layout_height="25dp"
+                    android:layout_width="@dimen/layout_width_0"
+                    android:layout_height="@dimen/layout_height_25"
                     android:layout_toRightOf="@id/tweet_reply"
                     android:layout_weight="1"
                     android:background="@null"
                     android:drawableLeft="@drawable/toggle_button_retweet"
-                    android:paddingTop="5dp"
+                    android:paddingTop="@dimen/padding_5"
                     android:textOff=""
                     android:textOn="" />
 
                 <ToggleButton
                     android:id="@+id/favorited"
-                    android:layout_width="0dp"
-                    android:layout_height="25dp"
+                    android:layout_width="@dimen/layout_width_0"
+                    android:layout_height="@dimen/layout_height_25"
                     android:layout_toRightOf="@id/retweet"
                     android:layout_weight="1"
                     android:background="@null"
                     android:drawableLeft="@drawable/toggle_button_favorited"
-                    android:paddingTop="5dp"
+                    android:paddingTop="@dimen/padding_5"
                     android:textOff=""
                     android:textOn="" />
 
@@ -113,6 +106,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_tweet_created_at" />
+        android:background="@color/twitter_medium_grey" />
 
 </LinearLayout>

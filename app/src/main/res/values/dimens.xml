@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="text_size_toolbar">18sp</dimen>
+    <dimen name="toolbar_elevation">3dp</dimen>
 
-    <dimen name="text_size_tweet_name">16sp</dimen>
-    <dimen name="text_size_tweet_screen_name_handle">15sp</dimen>
-    <dimen name="text_size_tweet_created_at">15sp</dimen>
-    <dimen name="text_size_tweet_text">16sp</dimen>
+    <dimen name="layout_width_0">0dp</dimen>
+    <dimen name="layout_width_64">64dp</dimen>
 
-    <dimen name="text_size_about_text">16sp</dimen>
+    <dimen name="layout_height_25">25dp</dimen>
+    <dimen name="layout_height_64">64dp</dimen>
+
+    <dimen name="layout_margin_15">15dp</dimen>
+
+    <dimen name="padding_5">5dp</dimen>
+    <dimen name="padding_6">6dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
+
+    <dimen name="text_size_15sp">15sp</dimen>
+    <dimen name="text_size_16sp">16sp</dimen>
+    <dimen name="text_size_18sp">18sp</dimen>
 
 </resources>
